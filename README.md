@@ -15,6 +15,5 @@ License
 -----------------------------------
 Licensed under a MIT general public license.
 
-__If you like this project, you can send me email. __
-__:) My email is jasonwbw@yahoo.com. Thanks for support!__
+__If you like this project, you can send me email. :) My email is jasonwbw@yahoo.com. Thanks for support!__
 
