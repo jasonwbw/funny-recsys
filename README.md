@@ -9,7 +9,7 @@ the code standards is use the [google's style for open source](http://google-sty
 
 Reference
 -----------------------------------
-1. Recommender System  Author: Dietmar Jannach / Markus Zanker / Alexander Felfernig / Gerhard Friedrich 
+1. "Recommender System", Author: Dietmar Jannach / Markus Zanker / Alexander Felfernig / Gerhard Friedrich 
 
 License
 -----------------------------------
