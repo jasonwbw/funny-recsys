@@ -2,10 +2,15 @@
 #-*- coding: utf-8 -*-
 
 from abc import ABCMeta, abstractmethod
-from error_wrongvec import WrongVecError
+from recsys.exception.error_wrongvec import WrongVecError
 import numpy 
 
 class Distance():
+  """
+    abstract class, represent distance of two vector
+    
+    Attributes:
+    """    
 
   __metaclass__ = ABCMeta
          

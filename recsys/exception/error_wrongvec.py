@@ -1,3 +1,6 @@
+#! /usr/bin/env python
+#-*- coding: utf-8 -*-
+
 class WrongVecError(Exception):
     '''
     Raised when an operation use empty or not same size vector.
