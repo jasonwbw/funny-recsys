@@ -26,10 +26,12 @@ class DictMatrix():
         http://www.fuchaoqun.com/2010/03/python-sparse-matrix/
     '''
     
-    def __init__(self, container = {}, dft = 0.0):
+    def __init__(self, row_num, column_num, container = {}, dft = 0.0):
         self._data  = container
         self._dft   = dft
         self._nums  = 0
+        self._row_num= row_num
+        self._column_num = column_num
  
     def __setitem__(self, index, value):
         try:
@@ -77,6 +79,24 @@ class DictMatrix():
  
     def __iter__(self):
         pass
+
+    def column_count(self):
+        """
+        the matrix's column count
+        
+        Returns:
+            the matrix's column count
+        """    
+        return self._column_num
+    
+    def row_count(self):
+        """
+        the matrix's row count
+        
+        Returns:
+            the matrix's row count
+        """    
+        return self._row_num 
  
     def from_file(self, fp, sep = '\t'):
         '''
@@ -139,10 +159,11 @@ class DictMatrix():
  
 if __name__ == '__main__':
     db = bsddb.btopen(None, cachesize = 268435456)
-    data = DictMatrix(db)
+    data = DictMatrix(2, 2, db)
     #data.from_file(open('/path/to/log.txt', 'r'), ',')
     data[0,1] = 1
     data[0,1] = 2
     data[1,1] = 1
     print data[..., 1]
     print data[0, 1]
+    print data[2, ...]
