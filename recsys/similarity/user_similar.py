@@ -61,7 +61,20 @@ class UserSimilar():
         v2.append(d2[i])
       except:
         v2.append(0)
-    return PearsonDistance().distance(np.array([v1]), np.array([v2]))
+    return self._getComputeWeight(v1, v2) * PearsonDistance().distance(np.array([v1]), np.array([v2]))
+  
+  def _getComputeWeight(self, u1, u2):  
+    """
+    get weight while compute distance of u1 and u2
+        
+    Args:
+        u1: user vector
+        u2: user vector
+    
+    Returns:
+        the weight
+    """      
+    return 1
   
   def topN(self, user, n=35):
     """
