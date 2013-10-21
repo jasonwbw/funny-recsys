@@ -167,3 +167,4 @@ if __name__ == '__main__':
     print data[..., 1]
     print data[0, 1]
     print data[2, ...]
+    print data[0, 0]

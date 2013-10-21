@@ -76,12 +76,13 @@ class UserSimilar():
     """      
     return 1
   
-  def topN(self, user, n=35):
+  def topN(self, user, item, n=35):
     """
-    compute the topN user
+    compute the topN user rated item
         
     Args:
         user: user index
+        item: item index
         n: n default 35 based on 
             "An empirical analysis of design choices in neighborhood-based collaborative filtering algorithms. et al.2002"
             20-50 perfrom better on movielen
@@ -91,7 +92,7 @@ class UserSimilar():
     """
     top = []    # use list of size n to sort the suitable user
     for u in range(self._matrix.row_count()):
-      if u == user:
+      if u == user or self._matrix[u, item] == 0:
         continue
       dis = self.compute(u, user)
       if dis <= 0:
@@ -105,5 +106,7 @@ class UserSimilar():
           break
       if top_len == 0:
         top.append((u, dis))
-    result = [i[0] for i in top]
-    return result
+    return top
+  
+  def testTopNNoWeight(self, user, item, n=35):
+    return [i[0] for i in self.topN(user, item, n)]   

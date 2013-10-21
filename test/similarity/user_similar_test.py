@@ -25,8 +25,8 @@ class UserSimilarTestCase(unittest.TestCase):
     def testCompute(self):      
         self.assertEqual(True, abs(self.similar.compute(0,1) - 0.166) < 0.01)
     
-    def testTopN(self):
-        self.assertEqual([1], self.similar.topN(0))
+    def testTopNNoWeight(self):
+        self.assertEqual([1], self.similar.testTopNNoWeight(0, 0))
 
 if __name__ == "__main__":  
     unittest.main()  
