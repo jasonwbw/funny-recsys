@@ -52,7 +52,7 @@ class UserSimilar():
     d1, d2, v1, v2 = (self._matrix[u1, ...], self._matrix[u2, ...], [], [])
     if d1 == 0 or d2 == 0:
       return 0
-    for i in range(max(max(d1.keys()), max(d2.keys()))+1):
+    for i in range(1, max(max(d1.keys()), max(d2.keys()))+1):
       try:
         v1.append(d1[i])
       except:

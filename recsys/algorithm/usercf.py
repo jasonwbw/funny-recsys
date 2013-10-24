@@ -31,7 +31,7 @@ class UserCF():
       from recsys.similarity.herlocker_user_similar import HerlockerUserSimilar
       self._user_similar = HerlockerUserSimilar(matrix)
   
-  def getPrediction(self, user, item):
+  def prediction(self, user, item):
     """
     get prediction of user-item pair by user-cf
     prediciton(a, p) = avg_a + sum( sim(a,b) * (r(b,p) - avg_b) / sum(sim(a,b))
@@ -51,7 +51,7 @@ class UserCF():
     weights = 0.0
     for i in topN:
       count += (self._matrix[i[0], item] - self._userAverage(i[0])) * i[1]
-      weights += i[i]
+      weights += i[1]
     if weights == 0:
       return avg_u
     return avg_u + count / weights
@@ -85,9 +85,12 @@ class UserCF():
     total = 0.0
     count = 0
     for i in range(vec_len):
-      if vec[i] <> 0:
-        total += vec[i]
-        count += 1
+      try:
+        if vec[i] <> 0:
+          total += vec[i]
+          count += 1
+      except:
+        pass
     if count == 0:
       return 0
     return total/count
