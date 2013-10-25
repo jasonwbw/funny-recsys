@@ -3,6 +3,8 @@
 
 from distance.pearson_distance import PearsonDistance
 import numpy as np
+import bsddb
+from recsys.utils.sparse_matrix import DictMatrix
 
 class UserSimilar():
   """
@@ -26,6 +28,8 @@ class UserSimilar():
                         if you make sure matrix's index i and j is continuous from 0, the compute speed while be fast. 
     """        
     self._matrix = matrix
+    db = bsddb.btopen(None, cachesize = 268435456)     
+    self._similar = DictMatrix(matrix.row_count(), matrix.row_count(), db, -1)     
   
   def edit_score(self, user, item, value):
     """
@@ -49,6 +53,9 @@ class UserSimilar():
     Returns:
         the similarity of two user
     """         
+    if self._similar[u1, u2] <> -1:
+      return self._similar[u1, u2]
+    
     d1, d2, v1, v2 = (self._matrix[u1, ...], self._matrix[u2, ...], [], [])
     if d1 == 0 or d2 == 0:
       return 0
@@ -61,7 +68,8 @@ class UserSimilar():
         v2.append(d2[i])
       except:
         v2.append(0)
-    return self._getComputeWeight(v1, v2) * PearsonDistance().distance(np.array([v1]), np.array([v2]))
+    self._similar[u1, u2] = self._getComputeWeight(v1, v2) * PearsonDistance().distance(np.array([v1]), np.array([v2]))
+    return self._similar[u1, u2]
   
   def _getComputeWeight(self, u1, u2):  
     """
@@ -91,7 +99,7 @@ class UserSimilar():
         topN similar user list
     """
     top = []    # use list of size n to sort the suitable user
-    for u in range(self._matrix.row_count()):
+    for u in range(1, self._matrix.row_count()+1):
       if u == user or self._matrix[u, item] == 0:
         continue
       dis = self.compute(u, user)

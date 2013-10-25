@@ -1,10 +1,6 @@
 #! /usr/bin/env python
 #-*- coding: utf-8 -*-
 
-#static final value for use different similar algorithm
-USER_SIMILAR = 0                           #UserSimilar
-HERLOCKER_USER_SIMILAR = 1       #HerlockerUserSimilar
-
 class UserCF():
   """
   Use user-cf algorithm to recommend
@@ -13,6 +9,10 @@ class UserCF():
   _matrix: the user-item matrix contain the score by user, an instance of recsys.utils.sparse_matrix.DictMatrix.
   _user_similar: instance of UserSimilar
   """ 
+  
+  #static final value for use different similar algorithm
+  USER_SIMILAR = 0                           #UserSimilar
+  HERLOCKER_USER_SIMILAR = 1       #HerlockerUserSimilar  
   
   def __init__(self, matrix, similar = 0):
     """
@@ -24,10 +24,11 @@ class UserCF():
                         if you make sure matrix's index i and j is continuous from 0, the compute speed while be fast. 
     """      
     self._matrix = matrix
-    if similar == USER_SIMILAR:
+    self._avg = {}
+    if similar == UserCF.USER_SIMILAR:
       from recsys.similarity.user_similar import UserSimilar
       self._user_similar = UserSimilar(matrix)
-    elif similar == HERLOCKER_USER_SIMILAR:
+    elif similar == UserCF.HERLOCKER_USER_SIMILAR:
       from recsys.similarity.herlocker_user_similar import HerlockerUserSimilar
       self._user_similar = HerlockerUserSimilar(matrix)
   
@@ -55,15 +56,6 @@ class UserCF():
     if weights == 0:
       return avg_u
     return avg_u + count / weights
-  
-  def _itemAverage(self, item):
-    """
-    compute the average rate of item
-        
-    Args:
-        item: item index
-    """              
-    return self._average(self._matrix[..., item])
 
   def _userAverage(self, user):
     """
@@ -72,7 +64,12 @@ class UserCF():
     Args:
         user: user index
     """          
-    return self._average(self._matrix[user, ...])
+    try:
+      return self._avg[user]
+    except:
+      avg = self._average(self._matrix[user, ...])
+      self._avg[user] = avg
+      return avg
 
   def _average(self, vec):
     """
