@@ -1,3 +1,6 @@
 #! /usr/bin/env python
 
-__all__ = ['']
+import baseline
+import usercf
+
+__all__ = ['baseline', 'usercf']
